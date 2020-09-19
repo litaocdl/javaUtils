@@ -1,4 +1,7 @@
+package security;
+
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.security.InvalidKeyException;
 import java.security.KeyManagementException;
 import java.security.KeyPair;
@@ -26,6 +29,7 @@ import javax.net.ssl.SSLServerSocketFactory;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLContextBuilder;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.util.TextUtils;
 
 public class JavaSecurity {
@@ -225,7 +229,7 @@ public class JavaSecurity {
        String original = "hello world" ;
        System.out.println("Original message:" + original);
        //Get all message Digest
-       Set messageDigest = Security.getAlgorithms("MessageDigest") ;
+       Set<String> messageDigest = Security.getAlgorithms("MessageDigest") ;
        System.out.println("MessageDigest provided: "+ messageDigest.toString()) ;
        try {
            //Get the md5 algorithm from default provider
@@ -299,6 +303,11 @@ public class JavaSecurity {
        KeyPair kp = kg.genKeyPair() ;
        return kp ;
    }
-   
+   private static String[] split(final String s) {
+    if (TextUtils.isBlank(s)) {
+        return null;
+    }
+    return s.split(" *, *");
+}
 
 }
