@@ -39,6 +39,16 @@ public class JsonTest {
              e.printStackTrace();
         }
     }
+    public static void jsonToMap(){
+        String json = "{\"UserName\":\"Jack\",\"UserAges\":\"20\",\"sex\":\"M\"}";
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            Map map = mapper.readValue(json, new TypeReference<Map<String,?>>(){}) ;
+            map.forEach((k,v)-> System.out.println(k + ":" + v));
+        } catch (IOException e) {
+             e.printStackTrace();
+        }
+    }
 }
 
 class SimpleBeans{
