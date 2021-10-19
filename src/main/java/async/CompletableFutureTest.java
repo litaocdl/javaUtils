@@ -10,9 +10,12 @@ public class CompletableFutureTest {
             return CompletableFutureTest.handSuccess(status);
         }).thenApplyAsync(status -> {
            return CompletableFutureTest.handFailure(status);
+        }).exceptionally(e -> {
+            e.printStackTrace();
+            return null ;
         }) ;
 
-        Thread.sleep(5000);
+        Thread.sleep(3000);
     }
 
     public static TaskStatus handSuccess(TaskStatus status){
@@ -28,16 +31,18 @@ public class CompletableFutureTest {
         return status;
     }
 
-    public static TaskStatus timeConsumerRun(){
+    public static TaskStatus timeConsumerRun() {
         try{
             Thread.sleep(1000);
         }catch(InterruptedException e){
             e.printStackTrace();
             return TaskStatus.failure ;
         }
-
-        if(Math.random() <= 0.5){
+        double random = Math.random() ;
+        if(random <= 0.3){
             return TaskStatus.failure ;
+        }else if(random < 0.6){
+            throw new RuntimeException("I am an exception thrown") ;
         }else{
             return TaskStatus.success ;
         }
